@@ -1,5 +1,4 @@
-#include "../include/xdma_mm.hh"
-#include "../include/xdma_lite.hh"
+#include "../include/xdma_utils.hh"
 #include "../include/time_utils.hh"
 
 #define SZ_SHORT (12)
@@ -7,7 +6,7 @@
 
 int main()
 {
-    char *wr_buf = "Hello World";
+    char wr_buf[] = "Hello World";
     char *rd_buf = (char *)malloc(SZ_SHORT);
     char *wr_buf_long = (char *)malloc(SZ_LONG);
     char *rd_buf_long = (char *)malloc(SZ_LONG);

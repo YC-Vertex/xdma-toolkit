@@ -1,20 +1,21 @@
-#include "../include/xdma_mm.hh"
-#include "../include/xdma_lite.hh"
+#include "../include/xdma_utils.hh"
+
+#include <stdlib.h>
+#include <time.h>
 
 int main()
 {
+    srand((unsigned)time(NULL));
+
     char *dev_name = "/dev/xdma0_user";
     int dev_fd = dev_init(dev_name);
 
-    uint8_t state = 0x0001;
-    for (int pos = 0; pos < 6; pos++) {
-        *(uint8_t *)(map(dev_fd, 0x0000)) = state;
-        state <<= 1;
-        for (int i = 0; i < 1e8; i++);
+    for (int addr = 0; addr < 16; ++addr) {
+        uint8_t wr = rand() % 256, rd;
+        *(uint8_t *)(map(dev_fd, addr)) = wr;
+        rd = *(uint8_t *)(map(dev_fd, addr));
+        printf("wr = 0x%02x, rd = 0x%02x, eq = %x\n", wr, rd, wr == rd);
     }
-
-    // uint8_t state = *(uint8_t *)(map(dev_fd, 0x0000));
-    // printf("button state = %x\n", state);
 
     return 0;
 }
